@@ -1,3 +1,5 @@
+require_relative 'lib/aoc'
+
 # Shapes for rock-paper-scissors.
 # Each shape's value is it's score value.
 SHAPE_ROCK = 1
@@ -23,18 +25,6 @@ WINNING_MOVE = {
     SHAPE_PAPER => SHAPE_SCISSORS,
     SHAPE_SCISSORS => SHAPE_ROCK
 }
-
-def example(day, number, expected)
-    # Get the actual outcome.
-    actual = yield
-
-    # Print the result.
-    expected_string = ""
-    if actual != expected
-        expected_string = " (expected #{expected})"
-    end
-    puts "Day #{day}, example #{number} - result: #{actual}#{expected_string}"
-end
 
 def puzzle(day, number)
     actual = yield
@@ -126,8 +116,8 @@ def get_plays_part2(strategy)
     plays
 end
 
-example(2, 1, 15) do
-    plays = get_plays(File.read("data/day2/example.txt").split("\n"))
+AoC::example(day: 2, part: 1, expected: 15) do |example|
+    plays = get_plays(example.split("\n"))
     plays.map(&:score).sum
 end
 
@@ -136,8 +126,8 @@ puzzle(2, 1) do
     plays.map(&:score).sum
 end
 
-example(2, 2, 12) do
-    plays = get_plays_part2(File.read("data/day2/example.txt").split("\n"))
+AoC::example(day: 2, part: 2, expected: 12) do |example|
+    plays = get_plays_part2(example.split("\n"))
     plays.map(&:score).sum
 end
 
