@@ -115,8 +115,8 @@ AoC::example(day: 2, part: 1, expected: 15) do |example|
     plays.map(&:score).sum
 end
 
-AoC::puzzle(day: 2, part: 1) do |puzzle|
-    plays = get_plays(puzzle.split("\n"))
+AoC::solution(day: 2, part: 1) do |data|
+    plays = get_plays(data.split("\n"))
     plays.map(&:score).sum
 end
 
@@ -125,7 +125,7 @@ AoC::example(day: 2, part: 2, expected: 12) do |example|
     plays.map(&:score).sum
 end
 
-AoC::puzzle(day: 2, part: 2) do |puzzle|
-    plays = get_plays_part2(puzzle.split("\n"))
+AoC::solution(day: 2, part: 2) do |data|
+    plays = get_plays_part2(data.split("\n"))
     plays.map(&:score).sum
 end

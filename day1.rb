@@ -1,3 +1,5 @@
+require_relative 'lib/aoc'
+
 def get_food_carried(entries)
     foods = []
     this_food = []
@@ -16,14 +18,18 @@ def get_food_carried(entries)
     foods
 end
 
-example_foods = get_food_carried(File.read("data/day1/example.txt").split("\n"))
-puts "Example 1: #{example_foods.map(&:sum).max}"
+AoC::example(day: 1, part: 1, expected: 24000) do |example|
+    get_food_carried(example.split("\n")).map(&:sum).max
+end
 
-puzzle_foods = get_food_carried(File.read("data/day1/puzzle.txt").split("\n"))
-puts "Puzzle 1: #{puzzle_foods.map(&:sum).max}"
+AoC::solution(day: 1, part: 1) do |data|
+    get_food_carried(data.split("\n")).map(&:sum).max
+end
 
-example_top_three = example_foods.map(&:sum).sort.last(3)
-puts "Example 2: #{example_top_three.sum}"
+AoC::example(day: 1, part: 2, expected: 45000) do |example|
+    get_food_carried(example.split("\n")).map(&:sum).sort.last(3).sum
+end
 
-puzzle_top_three = puzzle_foods.map(&:sum).sort.last(3)
-puts "Puzzle 2: #{puzzle_top_three.sum}"
+AoC::solution(day: 1, part: 2) do |data|
+    get_food_carried(data.split("\n")).map(&:sum).sort.last(3).sum
+end

@@ -51,7 +51,7 @@ module AoC
     # The block has a single parameter - the puzzle
     # data read from the corresponding file in the data/
     # directory.
-    def self.puzzle(day:, part:)
+    def self.solution(day:, part:)
         actual = yield data(day, "puzzle.txt")
 
         puts "Day #{day}, puzzle #{part} - result: #{actual}"
