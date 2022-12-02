@@ -20,4 +20,10 @@ module AoC
         end
         puts "Day #{day}, example #{part} - result: #{actual}#{expected_string}"
     end
+
+    def self.puzzle(day:, part:)
+        actual = yield data(day, "puzzle.txt")
+
+        puts "Day #{day}, puzzle #{part} - result: #{actual}"
+    end
 end

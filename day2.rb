@@ -26,12 +26,6 @@ WINNING_MOVE = {
     SHAPE_SCISSORS => SHAPE_ROCK
 }
 
-def puzzle(day, number)
-    actual = yield
-
-    puts "Day #{day}, puzzle #{number} - result: #{actual}"
-end
-
 class Play
     def initialize(opponent, response)
         @opponent = opponent
@@ -121,8 +115,8 @@ AoC::example(day: 2, part: 1, expected: 15) do |example|
     plays.map(&:score).sum
 end
 
-puzzle(2, 1) do
-    plays = get_plays(File.read("data/day2/puzzle.txt").split("\n"))
+AoC::puzzle(day: 2, part: 1) do |puzzle|
+    plays = get_plays(puzzle.split("\n"))
     plays.map(&:score).sum
 end
 
@@ -131,7 +125,7 @@ AoC::example(day: 2, part: 2, expected: 12) do |example|
     plays.map(&:score).sum
 end
 
-puzzle(2, 2) do
-    plays = get_plays_part2(File.read("data/day2/puzzle.txt").split("\n"))
+AoC::puzzle(day: 2, part: 2) do |puzzle|
+    plays = get_plays_part2(puzzle.split("\n"))
     plays.map(&:score).sum
 end
