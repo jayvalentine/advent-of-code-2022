@@ -140,3 +140,8 @@ example(2, 2, 12) do
     plays = get_plays_part2(File.read("data/day2/example.txt").split("\n"))
     plays.map(&:score).sum
 end
+
+puzzle(2, 2) do
+    plays = get_plays_part2(File.read("data/day2/puzzle.txt").split("\n"))
+    plays.map(&:score).sum
+end
