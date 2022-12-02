@@ -1,3 +1,5 @@
+require 'benchmark'
+
 # Helper functions for handling some of the repeated functionality
 # involved in writing solutions for Advent of Code puzzles.
 #
@@ -10,6 +12,18 @@ module AoC
     # filename: name of file to read
     def self.data(day, filename)
         File.read(File.join('data', "day#{day}", filename))
+    end
+
+    # Prints a sequence of values in a tabulated form, with 20 columns
+    # per string.
+    def self.tabulate(*values)
+        out = ""
+        values.each do |v|
+            out += " %-18s " % v.to_s
+            out += "|"
+        end
+
+        out
     end
 
     # Declare an AoC example.
@@ -30,14 +44,17 @@ module AoC
     def self.example(day:, part:, expected:)
         # Get the actual outcome from the passed block.
         # Pass the example data to the block.
-        actual = yield data(day, "example.txt")
+        actual = nil
+        time = Benchmark.measure do
+            actual = yield data(day, "example.txt")
+        end
 
         # Print the result.
         expected_string = ""
         if actual != expected
             expected_string = " (expected #{expected})"
         end
-        puts "Day #{day}, example #{part} - result: #{actual}#{expected_string}"
+        puts tabulate("Day #{day}, example #{part}", "#{time.real.round(5)}s", "#{actual}#{expected_string}")
     end
 
     # Declare an AoC puzzle solution.
@@ -52,8 +69,11 @@ module AoC
     # data read from the corresponding file in the data/
     # directory.
     def self.solution(day:, part:)
-        actual = yield data(day, "puzzle.txt")
+        actual = nil
+        time = Benchmark.measure do
+            actual = yield data(day, "puzzle.txt")
+        end
 
-        puts "Day #{day}, puzzle #{part} - result: #{actual}"
+        puts tabulate("Day #{day}, solution #{part}", "#{time.real.round(5)}s", actual)
     end
 end
