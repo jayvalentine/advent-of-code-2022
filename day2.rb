@@ -1,0 +1,96 @@
+# Shapes for rock-paper-scissors.
+# Each shape's value is it's score value.
+SHAPE_ROCK = 1
+SHAPE_PAPER = 2
+SHAPE_SCISSORS = 3
+
+# Mapping of strategy value to shapes.
+OPPONENT_MAPPING = {
+    'A' => SHAPE_ROCK,
+    'B' => SHAPE_PAPER,
+    'C' => SHAPE_SCISSORS
+}
+
+RESPONSE_MAPPING = {
+    'X' => SHAPE_ROCK,
+    'Y' => SHAPE_PAPER,
+    'Z' => SHAPE_SCISSORS
+}
+
+# Given an opponent's play, this map gives the corresponding winning move.
+WINNING_MOVE = {
+    SHAPE_ROCK => SHAPE_PAPER,
+    SHAPE_PAPER => SHAPE_SCISSORS,
+    SHAPE_SCISSORS => SHAPE_ROCK
+}
+
+def example(day, number, expected)
+    # Get the actual outcome.
+    actual = yield
+
+    # Print the result.
+    expected_string = ""
+    if actual != expected
+        expected_string = " (expected #{expected})"
+    end
+    puts "Day #{day}, example #{number} - result: #{actual}#{expected_string}"
+end
+
+class Play
+    def initialize(opponent, response)
+        @opponent = opponent
+        @response = response
+    end
+
+    # A play is a win if the response is the winning move for the
+    # opponent's move.
+    def win?
+        @response == WINNING_MOVE[@opponent]
+    end
+
+    # A play is a loss if the opponent's move is the winning move for
+    # the response.
+    def loss?
+        @opponent == WINNING_MOVE[@response]
+    end
+
+    # A play is a draw if it isn't a win or a loss.
+    def draw?
+        !win? && !loss?
+    end
+
+    # The score of the play is a combination of the score for the result:
+    # * WIN: 6
+    # * DRAW: 3
+    # * LOSS: 0
+    #
+    # and the score for the move played in response.
+    def score
+        result_score = if win?
+            6
+        elsif draw?
+            3
+        elsif loss?
+            0
+        end
+
+        result_score + @response
+    end
+end
+
+def get_plays(strategy)
+    plays = []
+    strategy.each do |s|
+        parts = s.split
+        opponent = OPPONENT_MAPPING[parts.first]
+        response = RESPONSE_MAPPING[parts.last]
+        plays << Play.new(opponent, response)
+    end
+
+    plays
+end
+
+example(2, 1, 15) do
+    plays = get_plays(File.read("data/day2/example.txt").split("\n"))
+    plays.map(&:score).sum
+end
