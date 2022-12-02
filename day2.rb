@@ -36,6 +36,12 @@ def example(day, number, expected)
     puts "Day #{day}, example #{number} - result: #{actual}#{expected_string}"
 end
 
+def puzzle(day, number)
+    actual = yield
+
+    puts "Day #{day}, puzzle #{number} - result: #{actual}"
+end
+
 class Play
     def initialize(opponent, response)
         @opponent = opponent
@@ -92,5 +98,10 @@ end
 
 example(2, 1, 15) do
     plays = get_plays(File.read("data/day2/example.txt").split("\n"))
+    plays.map(&:score).sum
+end
+
+puzzle(2, 1) do
+    plays = get_plays(File.read("data/day2/puzzle.txt").split("\n"))
     plays.map(&:score).sum
 end
