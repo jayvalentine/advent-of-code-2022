@@ -96,6 +96,36 @@ def get_plays(strategy)
     plays
 end
 
+def get_plays_part2(strategy)
+    plays = []
+
+    strategy.each do |s|
+        parts = s.split
+        opponent = OPPONENT_MAPPING[parts.first]
+
+        # Second half of strategy indicates what the game result should be.
+        # We need to choose the right shape to play to get that result.
+        # X: loss
+        # Y: draw
+        # Z: win
+        response = case parts.last
+        when 'X'
+            # The move for which the opponent's move would win.
+            WINNING_MOVE.keys.find { |m| WINNING_MOVE[m] == opponent }
+        when 'Y'
+            # The same move as the opponent.
+            opponent
+        when 'Z'
+            # The move that would beat the opponent.
+            WINNING_MOVE[opponent]
+        end
+
+        plays << Play.new(opponent, response)
+    end
+
+    plays
+end
+
 example(2, 1, 15) do
     plays = get_plays(File.read("data/day2/example.txt").split("\n"))
     plays.map(&:score).sum
@@ -103,5 +133,10 @@ end
 
 puzzle(2, 1) do
     plays = get_plays(File.read("data/day2/puzzle.txt").split("\n"))
+    plays.map(&:score).sum
+end
+
+example(2, 2, 12) do
+    plays = get_plays_part2(File.read("data/day2/example.txt").split("\n"))
     plays.map(&:score).sum
 end
