@@ -4,10 +4,14 @@
 # For example, testing implementations against a known example, loading
 # data from files, etc.
 module AoC
+    def self.data(day, filename)
+        File.read(File.join('data', "day#{day}", filename))
+    end
+
     def self.example(day:, part:, expected:)
         # Get the actual outcome from the passed block.
         # Pass the example data to the block.
-        actual = yield File.read(File.join('data', "day#{day}", "example.txt"))
+        actual = yield data(day, "example.txt")
 
         # Print the result.
         expected_string = ""
