@@ -37,6 +37,40 @@ def part1(input)
     common.map { |i| priority(i) }.sum
 end
 
+def part2(input)
+    all_badges = []
+
+    input.split("\n").each_slice(3) do |group|
+        badges = nil
+        group.each do |rucksack|
+            first, last = rucksack_contents(rucksack)
+            if badges.nil?
+                badges = first + last
+            else
+                badges = common_items(badges, first + last)
+            end
+        end
+
+        all_badges += badges.uniq
+    end
+
+    all_badges.map { |b| priority(b) }.sum
+end
+
+
+
 AoC::example(day: 3, part: 1, expected: 157) do |input|
     part1(input)
+end
+
+AoC::solution(day: 3, part: 1) do |input|
+    part1(input)
+end
+
+AoC::example(day: 3, part: 2, expected: 70) do |input|
+    part2(input)
+end
+
+AoC::solution(day: 3, part: 2) do |input|
+    part2(input)
 end
