@@ -10,7 +10,7 @@ def get_message(stacks)
     s
 end
 
-def part1(input)
+def parse_stacks_and_instructions(input)
     input = input.split("\n")
 
     # Get the elements on each stack.
@@ -42,6 +42,12 @@ def part1(input)
     # Now parse all the instructions
     instructions = input.map { |s| Crane::Instruction.parse(s) }
 
+    [stacks, instructions]
+end
+
+def part1(input)
+    stacks, instructions = parse_stacks_and_instructions(input)
+
     # Now perform the instructions on the stacks.
     instructions.each do |i|
         i.num.times do
@@ -55,6 +61,17 @@ def part1(input)
     get_message(stacks)
 end
 
+def part2(input)
+end
+
 AoC::example(day: 5, part: 1, expected: "CMZ") do |input|
     part1(input)
+end
+
+AoC::solution(day: 5, part: 1) do |input|
+    part1(input)
+end
+
+AoC::example(day: 5, part: 2, expected: "MCD") do |input|
+    part2(input)
 end
