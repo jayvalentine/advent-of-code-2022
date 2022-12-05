@@ -11,6 +11,22 @@ class CraneStackTest < Test::Unit::TestCase
         assert_equal("M", s[1])
         assert_equal("F", s[2])
     end
+
+    def test_first_empty
+        s = Crane::parse_stack_level("    [F] [T]", 3)
+        assert_equal(3, s.size)
+        assert_equal(nil, s[0])
+        assert_equal("F", s[1])
+        assert_equal("T", s[2])
+    end
+
+    def test_last_empty
+        s = Crane::parse_stack_level("[X] [F]", 3)
+        assert_equal(3, s.size)
+        assert_equal("X", s[0])
+        assert_equal("F", s[1])
+        assert_equal(nil, s[2])
+    end
 end
 
 class CraneInstructionTest < Test::Unit::TestCase

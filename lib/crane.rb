@@ -15,7 +15,6 @@ module Crane
 
             # Entry must either be in [X] format or be all-spaces.
             if /\[(\w)\]/ =~ entry
-                puts "entry #{i}: #{$1}"
                 stack_level[i] = $1
             elsif entry.strip.size != 0
                 raise "Invalid stack entry: '#{entry}'"
