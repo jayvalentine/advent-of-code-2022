@@ -62,6 +62,16 @@ def part1(input)
 end
 
 def part2(input)
+    stacks, instructions = parse_stacks_and_instructions(input)
+
+    # Now perform the instructions on the stacks.
+    instructions.each do |i|
+        items = stacks[i.from - 1].pop(i.num)
+        stacks[i.to - 1] += items
+    end
+
+    # Now return the string given by the top of each stack.
+    get_message(stacks)
 end
 
 AoC::example(day: 5, part: 1, expected: "CMZ") do |input|
@@ -73,5 +83,9 @@ AoC::solution(day: 5, part: 1) do |input|
 end
 
 AoC::example(day: 5, part: 2, expected: "MCD") do |input|
+    part2(input)
+end
+
+AoC::solution(day: 5, part: 2) do |input|
     part2(input)
 end
