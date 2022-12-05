@@ -18,7 +18,13 @@ module Crane
         end
 
         def self.parse(s)
-            self.new(0, 0, 0)
+            # Assume format "move X from Y to Z"
+            parts = s.split
+            num = parts[1].to_i
+            from = parts[3].to_i
+            to = parts[5].to_i
+
+            self.new(num, from, to)
         end
     end
 end
