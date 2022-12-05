@@ -3,7 +3,17 @@ require 'test/unit/assertions'
 
 require_relative '../lib/crane'
 
-class CraneTest < Test::Unit::TestCase
+class CraneStackTest < Test::Unit::TestCase
+    def test_all_have_elements
+        s = Crane::parse_stack_level("[A] [M] [F]", 3)
+        assert_equal(3, s.size)
+        assert_equal("A", s[0])
+        assert_equal("M", s[1])
+        assert_equal("F", s[2])
+    end
+end
+
+class CraneInstructionTest < Test::Unit::TestCase
     def test_parse_instruction()
         i = Crane::Instruction.parse("move 4 from 2 to 1")
         assert_equal(4, i.num)
