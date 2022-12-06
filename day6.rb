@@ -10,17 +10,32 @@ class String
     end
 end
 
-def part1(input)
+def get_marker(input, width)
     message = input.strip
-    message.each_window_with_index(4) do |w, i|
-        if Message::is_start?(w)
-            return i+4 # Account for the size of the message.
+    message.each_window_with_index(width) do |w, i|
+        if Message::is_packet_marker?(w)
+            return i+width # Account for the size of the marker.
         end
     end
 
     raise "No message start marker found!"
 end
 
+PACKET_MARKER_WIDTH = 4
+MESSAGE_MARKER_WIDTH = 14
+
 AoC::example(day: 6, part: 1, expected: 7) do |input|
-    part1(input)
+    get_marker(input, PACKET_MARKER_WIDTH)
+end
+
+AoC::solution(day: 6, part: 1) do |input|
+    get_marker(input, PACKET_MARKER_WIDTH)
+end
+
+AoC::example(day: 6, part: 2, expected: 19) do |input|
+    get_marker(input, MESSAGE_MARKER_WIDTH)
+end
+
+AoC::solution(day: 6, part: 2) do |input|
+    get_marker(input, MESSAGE_MARKER_WIDTH)
 end
