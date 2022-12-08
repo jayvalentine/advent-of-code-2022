@@ -115,3 +115,7 @@ end
 AoC::example(day: 7, part: 1, expected: 95437) do |input|
     part1(input)
 end
+
+AoC::solution(day: 7, part: 1) do |input|
+    part1(input)
+end
