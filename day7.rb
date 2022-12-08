@@ -75,7 +75,7 @@ end
 
 DIR_LIMIT = 100000
 
-def part1(input)
+def get_directories(input)
     input = input.split("\n")
     root = DeviceDir.new(nil, "/")
     cwd = root
@@ -107,9 +107,53 @@ def part1(input)
         end
     end
 
+    root
+end
+
+def part1(input)
+    root = get_directories(input)
+
     dirs = get_directories_under_limit(root, DIR_LIMIT)
 
     dirs.map(&:size).sum
+end
+
+TOTAL_SPACE = 70000000
+SPACE_NEEDED = 30000000
+
+def get_smallest_over_limit(dir, smallest, limit)
+    # If deleting this directory will not free enough space,
+    # we can ignore it and its children.
+    if dir.size < limit
+        return smallest
+    end
+
+    # If this directory is smaller than any we've seen
+    # then make a note of this so we compare
+    # other directories against this one.
+    if dir.size < smallest.size
+        smallest = dir
+    end
+
+    # Now check all the subdirectories
+    dir.files.select(&:dir?).each do |subdir|
+        smallest = get_smallest_over_limit(subdir, smallest, limit)
+    end
+
+    smallest
+end
+
+def part2(input)
+    root = get_directories(input)
+
+    # Calculate the amount of space we need to free up.
+    used_space = root.size
+
+    space_to_free = SPACE_NEEDED - (TOTAL_SPACE - used_space)
+
+    smallest = DeviceFile.new(nil, "inf", Float::INFINITY)
+
+    get_smallest_over_limit(root, smallest, space_to_free).size
 end
 
 AoC::example(day: 7, part: 1, expected: 95437) do |input|
@@ -118,4 +162,12 @@ end
 
 AoC::solution(day: 7, part: 1) do |input|
     part1(input)
+end
+
+AoC::example(day: 7, part: 2, expected: 24933642) do |input|
+    part2(input)
+end
+
+AoC::solution(day: 7, part: 2) do |input|
+    part2(input)
 end
