@@ -4,12 +4,19 @@ class Grid
         def +(vector)
             Point.new(x + vector.dx, y + vector.dy)
         end
+
+        def to_s
+            "(#{x}, #{y})"
+        end
     end
 
     # Represents a vector in 2D space.
     Vector = Struct.new("Vector", :dx, :dy) do
         def project(point, n)
+            return [] if n == 0
+
             project = [point]
+
             (n-1).times do |i|
                 project << project[i] + self
             end
@@ -23,11 +30,19 @@ class Grid
     end
 
     def [](p)
+        if p.x < 0 || p.x >= width || p.y < 0 || p.y >= height
+            raise KeyError.new("Point (#{p.x}, #{p.y}) out of range.")
+        end
+
         @rows[p.y][p.x]
     end
 
-    def []=(p, val)
-        @rows[p.y][p.x] = val
+    def each_point
+        height.times do |y|
+            width.times do |x|
+                yield Point.new(x, y)
+            end
+        end
     end
 
     def width
