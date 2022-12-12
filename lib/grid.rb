@@ -35,6 +35,10 @@ class Grid
         @rows = rows
     end
 
+    def to_s
+        @rows.map(&:join).join("\n")
+    end
+
     def [](p)
         if p.x < 0 || p.x >= width || p.y < 0 || p.y >= height
             raise KeyError.new("Point (#{p.x}, #{p.y}) out of range.")
@@ -67,6 +71,12 @@ class Grid
         end
     end
 
+    def each
+        each_point do |p|
+            yield [p, self[p]]
+        end
+    end
+
     def width
         @rows[0].size
     end
@@ -75,15 +85,27 @@ class Grid
         @rows.size
     end
 
+    # Returns the first point found with the given value,
+    # or nil if no such point exists.
+    def find(v)
+        each do |p, v2|
+            if v == v2
+                return p
+            end
+        end
+
+        nil
+    end
+
     # Gets up to four "manhattan" neighbours of the given point.
     def neighbours(p)
         n = []
 
         # Bottom
-        n << (p + Vector::new(0, 1)) unless p.y >= height
+        n << (p + Vector::new(0, 1)) unless p.y + 1 >= height
 
         # Right
-        n << (p + Vector::new(1, 0)) unless p.x >= width
+        n << (p + Vector::new(1, 0)) unless p.x + 1 >= width
 
         # Top
         n << (p + Vector::new(0, -1)) unless p.y == 0

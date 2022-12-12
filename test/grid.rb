@@ -64,6 +64,25 @@ class GridTest < Test::Unit::TestCase
         assert_equal([Grid::Point.new(2, 1), 4], neighbours[1])
         assert_equal([Grid::Point.new(1, 0), 8], neighbours[2])
         assert_equal([Grid::Point.new(0, 1), 6], neighbours[3])
+
+        neighbours = grid.neighbours(Grid::Point.new(2, 0))
+        assert_equal(2, neighbours.size)
+        assert_equal([Grid::Point.new(2, 1), 4], neighbours[0])
+        assert_equal([Grid::Point.new(1, 0), 8], neighbours[1])
+
+        neighbours = grid.neighbours(Grid::Point.new(1, 2))
+        assert_equal(3, neighbours.size)
+        assert_equal([Grid::Point.new(2, 2), 1], neighbours[0])
+        assert_equal([Grid::Point.new(1, 1), 5], neighbours[1])
+        assert_equal([Grid::Point.new(0, 2), 3], neighbours[2])
+    end
+
+    def test_find
+        grid = Grid.new([[9, 8, 7], [6, 5, 4], [3, 2, 1]])
+
+        assert_equal(Grid::Point.new(0, 0), grid.find(9))
+        assert_equal(Grid::Point.new(1, 1), grid.find(5))
+        assert_equal(nil, grid.find(11))
     end
 
     def test_transform
