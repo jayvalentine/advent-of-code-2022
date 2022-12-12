@@ -50,6 +50,30 @@ class GridTest < Test::Unit::TestCase
         end
     end
 
+    def test_with_custom_init
+        grid = Grid::parse("abc\nFoz\n!bc") do |c|
+            if c == "F"
+                100
+            elsif c == "!"
+                200
+            else
+                c.ord
+            end
+        end
+
+        assert_equal(97, grid[Grid::Point.new(0, 0)])
+        assert_equal(98, grid[Grid::Point.new(1, 0)])
+        assert_equal(99, grid[Grid::Point.new(2, 0)])
+
+        assert_equal(100, grid[Grid::Point.new(0, 1)])
+        assert_equal(111, grid[Grid::Point.new(1, 1)])
+        assert_equal(122, grid[Grid::Point.new(2, 1)])
+
+        assert_equal(200, grid[Grid::Point.new(0, 2)])
+        assert_equal(98, grid[Grid::Point.new(1, 2)])
+        assert_equal(99, grid[Grid::Point.new(2, 2)])
+    end
+
     def test_point_project
         v = Grid::Vector.new(0, 1)
         project = v.project(Grid::Point.new(0, 0), 4)

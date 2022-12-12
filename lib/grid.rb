@@ -53,8 +53,18 @@ class Grid
         @rows.size
     end
 
-    def self.parse(input)
-        rows = input.split("\n").map { |r| r.chars.map(&:to_i) }
+    def self.parse(input, &block)
+        rows = input.split("\n")
+        
+        # If a block is given, use it to parse the characters
+        # in the grid.
+        #
+        # Otherwise assume the characters are integers by default.
+        if block_given?
+            rows.map! { |r| r.chars.map { |c| block.call(c) } }
+        else
+            rows.map! { |r| r.chars.map(&:to_i) }
+        end
         Grid.new(rows)
     end
 end
