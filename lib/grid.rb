@@ -69,6 +69,25 @@ class Grid
         @rows.size
     end
 
+    # Gets up to four "manhattan" neighbours of the given point.
+    def neighbours(p)
+        n = []
+
+        # Bottom
+        n << (p + Vector::new(0, 1)) unless p.y >= height
+
+        # Right
+        n << (p + Vector::new(1, 0)) unless p.x >= width
+
+        # Top
+        n << (p + Vector::new(0, -1)) unless p.y == 0
+
+        # Left
+        n << (p + Vector::new(-1, 0)) unless p.x == 0
+
+        n.map { |p2| [p2, self[p2]] }
+    end
+
     # Transforms a grid onto another grid of the same shape
     # using the given block.
     def transform(&block)
