@@ -5,6 +5,12 @@ class Grid
             Point.new(x + vector.dx, y + vector.dy)
         end
 
+        # Gives the vector to get from the point 'other'
+        # to this one.
+        def -(other)
+            Vector.new(x - other.x, y - other.y)
+        end
+
         def to_s
             "(#{x}, #{y})"
         end

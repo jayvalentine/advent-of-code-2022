@@ -130,4 +130,24 @@ class GridTest < Test::Unit::TestCase
         project = v.project(Grid::Point.new(4, 0), 0)
         assert_equal(0, project.size)
     end
+
+    def test_point_subtract
+        p = Grid::Point.new(0, 1)
+        p2 = Grid::Point.new(0, 0)
+
+        assert_equal(Grid::Vector.new(0, 1), p - p2)
+        assert_equal(Grid::Vector.new(0, -1), p2 - p)
+
+        p = Grid::Point.new(2, 0)
+        p2 = Grid::Point.new(1, 0)
+
+        assert_equal(Grid::Vector.new(1, 0), p - p2)
+        assert_equal(Grid::Vector.new(-1, 0), p2 - p)
+
+        p = Grid::Point.new(4, 3)
+        p2 = Grid::Point.new(5, 2)
+
+        assert_equal(Grid::Vector.new(-1, 1), p - p2)
+        assert_equal(Grid::Vector.new(1, -1), p2 - p)
+    end
 end
