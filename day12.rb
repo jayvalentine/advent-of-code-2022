@@ -49,11 +49,15 @@ def bfs(grid, start, finish)
     nil
 end
 
+# Returns the grid, along with the start and end,
+# in an array:
+#
+# [grid, start, end]
 def get_grid(input)
     # Parse the grid.
     # We use the special values -1 and -2 to represent
     # the start and end, respectively.
-    Grid::parse(input) do |c|
+    grid = Grid::parse(input) do |c|
         if c == "S"
             -1
         elsif c == "E"
@@ -65,6 +69,18 @@ def get_grid(input)
             c.ord - 97
         end
     end
+
+    # Find the point corresponding to the start.
+    start = grid.find(-1)
+
+    # Find the point corresponding to the end.
+    goal = grid.find(-2)
+
+    # Now set the proper elevations of the start and end.
+    grid[start] = 0
+    grid[goal] = 25
+
+    [grid, start, goal]
 end
 
 # Given a grid of elevation values, returns a grid
@@ -92,17 +108,7 @@ def print_path(grid, start, goal, path)
 end
 
 def part1(input)
-    grid = get_grid(input)
-
-    # Find the point corresponding to the start.
-    start = grid.find(-1)
-
-    # Find the point corresponding to the end.
-    goal = grid.find(-2)
-
-    # Now set the proper elevations of the start and end.
-    grid[start] = 0
-    grid[goal] = 25
+    grid, start, goal = get_grid(input)
 
     # Map each square to its possible neighbours
     neighbour_grid = get_neighbour_grid(grid)
@@ -114,15 +120,7 @@ def part1(input)
 end
 
 def part2(input)
-    grid = get_grid(input)
-
-    # Find the point corresponding to the end.
-    goal = grid.find(-2)
-    start = grid.find(-1)
-
-    # Now set the proper elevations of the start and end.
-    grid[start] = 0
-    grid[goal] = 25
+    grid, start, goal = get_grid(input)
 
     # Map each square to its possible neighbours.
     neighbour_grid = get_neighbour_grid(grid)
