@@ -37,6 +37,22 @@ class Grid
         @rows[p.y][p.x]
     end
 
+    def []=(p, v)
+        if p.x < 0 || p.x >= width || p.y < 0 || p.y >= height
+            raise KeyError.new("Point (#{p.x}, #{p.y}) out of range.")
+        end
+
+        @rows[p.y][p.x] = v
+    end
+
+    def points
+        arr = []
+        each_point do |p|
+            arr << p
+        end
+        arr
+    end
+
     def each_point
         height.times do |y|
             width.times do |x|
@@ -51,6 +67,22 @@ class Grid
 
     def height
         @rows.size
+    end
+
+    # Transforms a grid onto another grid of the same shape
+    # using the given block.
+    def transform(&block)
+        # Blank rows for new grid.
+        new_rows = @rows.map { |r| Array.new(r.size) }
+
+        new_grid = Grid.new(new_rows)
+
+        points.each do |p|
+            new_value = block.call(p, self[p])
+            new_grid[p] = new_value
+        end
+
+        new_grid
     end
 
     def self.parse(input, &block)

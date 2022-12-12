@@ -50,6 +50,30 @@ class GridTest < Test::Unit::TestCase
         end
     end
 
+    def test_transform
+        grid = Grid.new([[9, 8, 7], [6, 5, 4], [3, 2, 1]])
+
+        grid2 = grid.transform do |p, v|
+            if p == Grid::Point.new(1, 2)
+                42
+            else
+                -v
+            end
+        end
+
+        assert_equal(-9, grid2[Grid::Point.new(0, 0)])
+        assert_equal(-8, grid2[Grid::Point.new(1, 0)])
+        assert_equal(-7, grid2[Grid::Point.new(2, 0)])
+
+        assert_equal(-6, grid2[Grid::Point.new(0, 1)])
+        assert_equal(-5, grid2[Grid::Point.new(1, 1)])
+        assert_equal(-4, grid2[Grid::Point.new(2, 1)])
+
+        assert_equal(-3, grid2[Grid::Point.new(0, 2)])
+        assert_equal(42, grid2[Grid::Point.new(1, 2)])
+        assert_equal(-1, grid2[Grid::Point.new(2, 2)])
+    end
+
     def test_with_custom_init
         grid = Grid::parse("abc\nFoz\n!bc") do |c|
             if c == "F"
