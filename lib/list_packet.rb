@@ -8,6 +8,10 @@ class ListPacket
         @list = list
     end
 
+    def to_s
+        @list.inspect
+    end
+
     def <=>(other)
         if @list.is_a?(Integer) && other.list.is_a?(Integer)
             @list <=> other.list
