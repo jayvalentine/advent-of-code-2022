@@ -1,23 +1,33 @@
 class Grid
-    # Represents an (x, y) coordinate on a grid.
-    Point = Struct.new("Point", :x, :y) do
+    # Represents an (x, y, z) coordinate on a grid.
+    Point = Struct.new("Point", :x, :y, :z) do
+        # Override initialize for Point to add a default
+        # value for the z dimension.
+        def initialize(x, y, z=0)
+            super
+        end
+        
         def +(vector)
-            Point.new(x + vector.dx, y + vector.dy)
+            Point.new(x + vector.dx, y + vector.dy, z + vector.dz)
         end
 
         # Gives the vector to get from the point 'other'
         # to this one.
         def -(other)
-            Vector.new(x - other.x, y - other.y)
+            Vector.new(x - other.x, y - other.y, z - other.z)
         end
 
         def to_s
-            "(#{x}, #{y})"
+            "(x: #{x}, y: #{y}, z: #{z})"
         end
     end
 
-    # Represents a vector in 2D space.
-    Vector = Struct.new("Vector", :dx, :dy) do
+    # Represents a vector in 3D space.
+    Vector = Struct.new("Vector", :dx, :dy, :dz) do
+        def initialize(dx, dy, dz=0)
+            super
+        end
+        
         def project(point, n)
             return [] if n == 0
 
